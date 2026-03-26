@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import {
@@ -9,16 +10,19 @@ import {
 } from "../components/ui/card";
 
 export function CardImage({
+  slug,
   name,
   rating,
   image,
 }: {
+  slug: string;
   name: string;
   rating: number;
   image: string;
 }) {
+  const navigate = useNavigate();
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0">
+    <Card className="relative mx-auto w-full max-w-sm pt-0 mb-2">
       <img
         src={image}
         alt="Event cover"
@@ -33,7 +37,12 @@ export function CardImage({
         </CardAction>
       </CardHeader>
       <CardFooter className="bg-secondary-foreground">
-        <Button className="w-full cursor-pointer">View more</Button>
+        <Button
+          className="w-full cursor-pointer"
+          onClick={() => navigate(`/game/${slug}`)}
+        >
+          View more
+        </Button>
       </CardFooter>
     </Card>
   );

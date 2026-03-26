@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const client = new QueryClient();
+export const client = new QueryClient();
 
 const router = createBrowserRouter([
   {

@@ -12,14 +12,24 @@ import { GetGames } from "./requests/GetGames";
 import type { Game } from "./types/types";
 import { CardImage } from "./components/GameComponent";
 import { SpinnerEmpty } from "./components/LoadingComponent";
+import { useEffect, useState } from "react";
+import { PaginationComponent } from "./components/PaginationComponent";
 
 function App() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["Games"],
-    queryFn: GetGames,
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
+
+  const { data, isLoading, isError, isFetching } = useQuery({
+    queryKey: ["Games", page],
+    queryFn: () => GetGames(page, pageSize),
+    staleTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 
-  console.log(data);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [page]);
+
   return (
     <>
       <CardHeader className="justify-around text-secondary bg-secondary-foreground h-[60px]">
@@ -31,16 +41,21 @@ function App() {
           <SpinnerEmpty />
         </Card>
       ) : (
-        <Card className="w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none bg-foreground">
-          {data?.map((item: Game) => (
-            <CardImage
-              image={item.background_image}
-              rating={item.rating}
-              name={item.name}
-            />
-          ))}
-        </Card>
+        <>
+          <Card className="w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none bg-foreground">
+            {data?.map((item: Game) => (
+              <CardImage
+                slug={item.slug}
+                image={item.background_image}
+                rating={item.rating}
+                name={item.name}
+                key={item.id}
+              />
+            ))}
+          </Card>
+        </>
       )}
+      <PaginationComponent currentPage={page} setPage={setPage} />
 
       <CardFooter className="flex flex-col bg-secondary-foreground text-accent items-start justify-between">
         <CardTitle>Website Name</CardTitle>
