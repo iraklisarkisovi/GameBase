@@ -33,7 +33,7 @@ export function CardImage({
         className="relative z-20 aspect-video w-full object-cover"
       />
       <CardHeader
-        className={`${theme === "dark" ? "bg-secondary-foreground text-accent" : "bg-accent"}`}
+        className={` transition-colors ${theme === "dark" ? "bg-secondary-foreground text-accent" : "bg-accent"}`}
       >
         <CardTitle>{name}</CardTitle>
         <CardAction className="p-5">

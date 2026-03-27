@@ -8,11 +8,11 @@ import { Skeleton } from "../components/ui/skeleton";
 
 export function SkeletonCard() {
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0 mb-2">
+    <Card className="relative mx-auto w-full  max-w-sm pt-3 mb-2">
       <CardContent>
         <Skeleton className="aspect-video w-full" />
       </CardContent>
-      <CardHeader className="flex mt-5 flex-row items-start justify-center">
+      <CardHeader className="flex mt-5 flex-row items-start justify-between">
         <Skeleton className="h-6 w-2/3" />
         <Skeleton className="h-6 w-1/4" />
       </CardHeader>

@@ -5,14 +5,23 @@ import { useQuery } from "@tanstack/react-query";
 import { GetGame } from "../requests/GetGames";
 import { CardImage } from "../components/GameComponent";
 import { Card, CardDescription, CardTitle } from "../components/ui/card";
+import { Spinner } from "../components/ui/spinner";
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>();
   console.log(id);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ["Currentgame"],
     queryFn: () => GetGame(id),
   });
+
+  if (isFetching) {
+    return (
+      <div className="w-full h-screen flex flex-col items-center justify-center rounded-none ">
+        <Spinner />
+      </div>
+    );
+  }
 
   console.log(data);
   return (

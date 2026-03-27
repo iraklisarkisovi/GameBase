@@ -34,7 +34,7 @@ function Home() {
   return (
     <>
       <CardHeader
-        className={`justify-around  ${theme === "dark" ? "text-secondary bg-secondary-foreground" : "bg-secondary"}  h-[60px]`}
+        className={`justify-around transition-colors   ${theme === "dark" ? "text-secondary bg-secondary-foreground" : "bg-secondary"}  h-[60px]`}
       >
         <CardTitle className="cursor-pointer">Website Name</CardTitle>
         <ToggleDemo />
@@ -50,7 +50,7 @@ function Home() {
       ) : (
         <>
           <Card
-            className={`w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none ${theme === "dark" ? "text-secondary bg-foreground" : "bg-accent"}`}
+            className={`w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none transition-colors  ${theme === "dark" ? "text-secondary bg-foreground" : "bg-accent"}`}
           >
             {data?.map((item: Game) => (
               <CardImage
@@ -67,7 +67,7 @@ function Home() {
       <PaginationComponent currentPage={page} setPage={setPage} />
 
       <CardFooter
-        className={`flex flex-col ${theme === "dark" ? "bg-secondary-foreground text-accent" : "bg-accent"} text-accent items-start justify-between`}
+        className={`flex flex-col transition-colors  ${theme === "dark" ? "bg-secondary-foreground text-accent" : "bg-accent"} text-accent items-start justify-between`}
       >
         <CardTitle>Website Name</CardTitle>
         <CardDescription>
