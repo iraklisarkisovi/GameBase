@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Theme } from "../components/Toggle";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { GetGames } from "../requests/GetGames";
 import type { Game } from "../types/types";
 import { CardImage } from "../components/GameComponent";
@@ -13,26 +13,47 @@ import { useEffect, useState } from "react";
 import { PaginationComponent } from "../components/PaginationComponent";
 import { SkeletonCard } from "../components/GameSkeleton";
 import { useAtom } from "jotai";
-import Header from "../components/HeaderComponent";
+import Header, { search } from "../components/HeaderComponent";
 import { useTranslation } from "react-i18next";
+
+const TOTAL_PAGES = 4;
+const PAGE_SIZE = 6;
 
 function Home() {
   const { t } = useTranslation();
-
+  const [Search] = useAtom(search);
   const [theme] = useAtom(Theme);
   const [page, setPage] = useState(1);
-  const pageSize = 6;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["Games", page],
-    queryFn: () => GetGames(page, pageSize),
-    staleTime: 1000 * 60 * 10,
-    refetchOnWindowFocus: false,
+  const results = useQueries({
+    queries: Array.from({ length: TOTAL_PAGES }, (_, i) => ({
+      queryKey: ["Games", i + 1],
+      queryFn: () => GetGames(i + 1, PAGE_SIZE),
+      staleTime: 1000 * 60 * 10,
+      refetchOnWindowFocus: false,
+    })),
   });
+
+  const isSearching = !!Search && (Search as string).trim() !== "";
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [page]);
+  }, [page, isSearching]);
+
+  const currentPageResult = results[page - 1];
+  const isLoading = isSearching
+    ? results.some((r) => r.isLoading)
+    : currentPageResult.isLoading;
+
+  const displayedGames: Game[] = isSearching
+    ? results
+        .flatMap((r) => r.data ?? [])
+        .filter((game) =>
+          game.name
+            .toLocaleLowerCase()
+            .includes((Search as string).toLocaleLowerCase()),
+        )
+    : (currentPageResult.data ?? []);
 
   return (
     <>
@@ -46,23 +67,23 @@ function Home() {
           ))}
         </Card>
       ) : (
-        <>
-          <Card
-            className={`w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none transition-colors  ${theme === "dark" ? "text-secondary bg-foreground" : "bg-accent"}`}
-          >
-            {data?.map((item: Game) => (
-              <CardImage
-                id={item.id}
-                image={item.background_image}
-                rating={item.rating}
-                name={item.name}
-                key={item.id}
-              />
-            ))}
-          </Card>
-        </>
+        <Card
+          className={`w-full grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 h-full rounded-none transition-colors  ${theme === "dark" ? "text-secondary bg-foreground" : "bg-accent"}`}
+        >
+          {displayedGames.map((item: Game) => (
+            <CardImage
+              id={item.id}
+              image={item.background_image}
+              rating={item.rating}
+              name={item.name}
+              key={item.id}
+            />
+          ))}
+        </Card>
       )}
-      <PaginationComponent currentPage={page} setPage={setPage} />
+      {!isSearching && (
+        <PaginationComponent currentPage={page} setPage={setPage} />
+      )}
 
       <CardFooter
         className={`flex flex-col transition-colors  ${theme === "dark" ? "bg-secondary-foreground text-accent" : "bg-accent"} text-accent items-start justify-between`}

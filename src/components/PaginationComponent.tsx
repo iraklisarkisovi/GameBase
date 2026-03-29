@@ -24,11 +24,11 @@ export const PaginationComponent = ({
   const [theme] = useAtom(Theme);
 
   const HandlePrevPage = () => {
-    if (currentPage < 1) {
-      setPage((prev) => prev - 1);
-    } else {
-      setPage((prev) => prev - 1);
-    }
+    setPage((prev) => (prev <= 1 ? 4 : prev - 1));
+  };
+
+  const HandleNextPage = () => {
+    setPage((prev) => (prev >= 4 ? 1 : prev + 1));
   };
   return (
     <Pagination
@@ -39,13 +39,13 @@ export const PaginationComponent = ({
           <PaginationPrevious
             language={Lang}
             isCurrent={false}
-            onClick={() => HandlePrevPage()}
+            onClick={HandlePrevPage}
           />
         </PaginationItem>
         {[1, 2, 3, 4].map((it) => (
           <PaginationItem key={it}>
             <PaginationLink
-              isCurrent={currentPage === it ? true : false}
+              isCurrent={currentPage === it}
               onClick={() => setPage(it)}
             >
               {it}
@@ -56,7 +56,7 @@ export const PaginationComponent = ({
           <PaginationNext
             language={Lang}
             isCurrent={false}
-            onClick={() => setPage((prev) => prev + 1)}
+            onClick={HandleNextPage}
           />
         </PaginationItem>
       </PaginationContent>

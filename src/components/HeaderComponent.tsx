@@ -3,10 +3,20 @@ import { SelectDemo } from "./SelectComponent";
 import { ToggleDemo } from "./Toggle";
 import { CardHeader, CardTitle } from "./ui/card";
 import { useNavigate } from "react-router-dom";
+import { atom, useAtom } from "jotai";
+import { Input } from "./ui/input";
+
+export const search = atom();
 
 export default function Header({ theme }: { theme: string | "ka" | "en" }) {
   const { t } = useTranslation();
+  const [Search, setSearch] = useAtom(search);
   const Navigate = useNavigate();
+
+  const HandleSearch = (value: string) => {
+    setSearch(value);
+    console.log(Search);
+  };
 
   return (
     <CardHeader
@@ -19,8 +29,14 @@ export default function Header({ theme }: { theme: string | "ka" | "en" }) {
       <CardTitle className="cursor-pointer" onClick={() => Navigate("/")}>
         {t("home.name")}
       </CardTitle>
-      <div className="flex flex-row w-full gap-5 items-center max-w-[150px]">
+
+      <div className="flex flex-row w-auto gap-5 items-center max-w-[150px]">
         <SelectDemo />
+        <Input
+          onChange={(e) => HandleSearch(e.target.value)}
+          placeholder="Input search"
+          className="min-w-[100px] w-[200px]"
+        />
         <ToggleDemo />
       </div>
     </CardHeader>
