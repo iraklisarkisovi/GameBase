@@ -5,10 +5,20 @@
   },
   "cards": {
     "rating": "რეიტინგი: ",
-    "button": "მეტის ნახვა"
+    "button": "მეტის ნახვა",
+    "description": "აღწერა: "
   },
   "pagination": {
     "prev": "უკან",
     "next": "წინ"
+  },
+  "game": {
+    "rating": "რეიტინგი",
+    "metacritic": "მეტაკრიტიკი",
+    "avgPlaytime": "საშ. თამაშის დრო",
+    "released": "გამოშვების თარიღი",
+    "reviews": "რეცენზიები",
+    "playerRatings": "მოთამაშეთა შეფასებები",
+    "platforms": "პლატფორმები"
   }
 }

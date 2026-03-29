@@ -5,10 +5,20 @@
   },
   "cards": {
     "rating": "Rating: ",
-    "button": "View more"
+    "button": "View more",
+    "description": "Description: "
   },
   "pagination": {
     "prev": "Previous",
     "next": "Next"
+  },
+  "game": {
+    "rating": "Rating",
+    "metacritic": "Metacritic",
+    "avgPlaytime": "Avg. Playtime",
+    "released": "Released",
+    "reviews": "Reviews",
+    "playerRatings": "Player ratings",
+    "platforms": "Platforms"
   }
 }
