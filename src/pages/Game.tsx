@@ -18,7 +18,7 @@ export default function GamePage() {
   const { id } = useParams<{ id: string }>();
   const [theme] = useAtom(Theme);
   const { data, isFetching } = useQuery({
-    queryKey: ["Currentgame"],
+    queryKey: ["Currentgame", id],
     queryFn: () => GetGame(id),
     staleTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,

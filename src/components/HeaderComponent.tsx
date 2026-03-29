@@ -10,7 +10,11 @@ export default function Header({ theme }: { theme: string | "ka" | "en" }) {
 
   return (
     <CardHeader
-      className={`justify-around transition-colors ${theme === "dark" ? "text-secondary bg-secondary-foreground" : "bg-secondary"} h-[60px]`}
+      className={`justify-around sticky top-0 z-50 transition-colors ${
+        theme === "dark"
+          ? "text-secondary bg-secondary-foreground"
+          : "bg-secondary"
+      } h-[60px] w-full`}
     >
       <CardTitle className="cursor-pointer" onClick={() => Navigate("/")}>
         {t("home.name")}
