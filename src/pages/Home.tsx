@@ -21,7 +21,7 @@ const PAGE_SIZE = 6;
 
 function Home() {
   const { t } = useTranslation();
-  const [Search, setSearch] = useAtom(search);
+  const [Search] = useAtom(search);
   const [theme] = useAtom(Theme);
   const [page, setPage] = useState(1);
 
