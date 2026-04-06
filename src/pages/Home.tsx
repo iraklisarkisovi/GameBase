@@ -27,7 +27,7 @@ function Home() {
 
   const results = useQueries({
     queries: Array.from({ length: TOTAL_PAGES }, (_, i) => ({
-      queryKey: ["Games", +1],
+      queryKey: ["Games", i + 1],
       queryFn: () => GetGames(i + 1, PAGE_SIZE),
       staleTime: 1000 * 60 * 10,
       refetchOnWindowFocus: false,
