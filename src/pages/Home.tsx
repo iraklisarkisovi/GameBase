@@ -35,9 +35,7 @@ function Home() {
   });
 
   const isSearching = !!Search && (Search as string).trim() !== "";
-  useEffect(() => {
-    setSearch("");
-  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [page, isSearching]);
